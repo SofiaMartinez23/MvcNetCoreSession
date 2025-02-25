@@ -1,0 +1,78 @@
+﻿@model List<Mascota>
+@using MvcNetCoreSession.Extensions
+@using MvcNetCoreSession.Helpers
+
+@* 
+@{
+    byte[] data = Context.Session.Get("MASCOTA");
+    Mascota mascota = null;
+    if(Context.Session.Get("MASCOTA") != null){
+        mascota = HelperBinarySession.ByteToObject(data) as Mascota;
+    }
+} 
+*@
+
+@{
+    // string data = Context.Session.GetString("MASCOTA");
+    // Mascota mascota = null;
+    // if (Context.Session.GetString("MASCOTA") != null)
+    // {
+    //     mascota = HelperJsonSession.DeserializableObject<Mascota>(data);
+    // }
+
+    Mascota mascota = Context.Session.GetObject<Mascota>("MASCOTAOBJECT");
+
+}
+
+<h1>Ejemplo Session</h1>
+
+@if(Model != null){
+    <h1 style="color:lightseagreen">Mascotas recuperadas : @Model.Count</h1>
+}else{
+    <h1 style="color:peru">No tenemos mascotas del Helper</h1>
+
+}
+
+<h2 style="color:blueviolet">
+    @Context.Session.GetString("nombre")
+</h2>
+<h2 style="color:cadetblue">
+    @Context.Session.GetString("hora")
+</h2>
+
+@if(mascota != null){
+    <h2 style="color: lightblue">@mascota.Nombre, Raza: @mascota.Raza, Edad: @mascota.Edad</h2>
+}
+
+<ul class="list-group">
+    <li class="list-group-item">
+        <a asp-controller = "EjemploSession" asp-action="SessionSimple">
+            Session Simple
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession" asp-action="SessionMascota">
+            Session Mascota
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession" asp-action="SessionCollection">
+            Session Collection
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession" asp-action="SessionMascotaJson">
+            Session Mascota Json
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession" asp-action="SessionMascotaObject">
+            Session Mascota Object
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession" asp-action="SessionMascotaCollection">
+            Session Mascota Collection
+        </a>
+    </li>
+</ul>
